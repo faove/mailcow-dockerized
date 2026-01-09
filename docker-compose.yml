@@ -457,17 +457,17 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.network=elantar_proxy"
         - "traefik.http.routers.mailcow.entrypoints=websecure"
-        - "traefik.http.routers.mailcow.rule=Host(`${MAILCOW_HOSTNAME}`)"
+        - "traefik.http.routers.mailcow.rule=Host(`mail.elantarone.com`)"
         - "traefik.http.routers.mailcow.tls=true"
         - "traefik.http.routers.mailcow.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow.service=mailcow-svc"
         - "traefik.http.routers.mailcow-autodiscover.entrypoints=websecure"
-        - "traefik.http.routers.mailcow-autodiscover.rule=Host(`${AUTODISCOVER_HOSTNAME}`)"
+        - "traefik.http.routers.mailcow-autodiscover.rule=Host(`autodiscover.elantarone.com`)"
         - "traefik.http.routers.mailcow-autodiscover.tls=true"
         - "traefik.http.routers.mailcow-autodiscover.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autodiscover.service=mailcow-svc"
         - "traefik.http.routers.mailcow-autoconfig.entrypoints=websecure"
-        - "traefik.http.routers.mailcow-autoconfig.rule=Host(`${AUTOCONFIG_HOSTNAME}`)"
+        - "traefik.http.routers.mailcow-autoconfig.rule=Host(`autoconfig.elantarone.com`)"
         - "traefik.http.routers.mailcow-autoconfig.tls=true"
         - "traefik.http.routers.mailcow-autoconfig.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autoconfig.service=mailcow-svc"
@@ -476,7 +476,7 @@ services:
         mailcow-network:
           aliases:
             - nginx
-        elantar_proxy: {}
+        elantar_proxy:
 
     certdumper:
       image: ghcr.io/kereis/traefik-certs-dumper:latest
@@ -489,7 +489,7 @@ services:
         - ./data/assets/ssl:/output:rw
         - /var/run/docker.sock:/var/run/docker.sock:ro
       environment:
-        - DOMAIN=${MAILCOW_HOSTNAME}
+        - DOMAIN=mail.elantarone.com
 
     acme-mailcow:
       depends_on:
