@@ -469,8 +469,9 @@ services:
         - "traefik.http.routers.mailcow-autoconfig.tls=true"
         - "traefik.http.routers.mailcow-autoconfig.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autoconfig.service=mailcow-svc"
-        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8082"
-        - "traefik.http.services.mailcow-svc.loadbalancer.server.scheme=http"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8444"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.scheme=https"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.transport.insecureSkipVerify=true"
       networks:
         mailcow-network:
           aliases:
