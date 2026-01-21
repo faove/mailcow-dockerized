@@ -469,7 +469,7 @@ services:
         - "traefik.http.routers.mailcow-autoconfig.tls=true"
         - "traefik.http.routers.mailcow-autoconfig.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autoconfig.service=mailcow-svc"
-        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8080"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8082"
       networks:
         mailcow-network:
           aliases:
