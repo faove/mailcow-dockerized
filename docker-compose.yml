@@ -459,6 +459,11 @@ services:
         - "traefik.http.routers.mailcow.tls=true"
         - "traefik.http.routers.mailcow.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow.service=mailcow-svc"
+        - "traefik.http.routers.mailcow-http.entrypoints=web"
+        - "traefik.http.routers.mailcow-http.rule=Host(`mail.elantarone.com`)"
+        - "traefik.http.routers.mailcow-http.service=mailcow-svc-http"
+        - "traefik.http.services.mailcow-svc-http.loadbalancer.server.port=8090"
+        - "traefik.http.services.mailcow-svc-http.loadbalancer.server.scheme=http"
         - "traefik.http.routers.mailcow-autodiscover.entrypoints=websecure"
         - "traefik.http.routers.mailcow-autodiscover.rule=Host(`autodiscover.elantarone.com`)"
         - "traefik.http.routers.mailcow-autodiscover.tls=true"
@@ -469,8 +474,9 @@ services:
         - "traefik.http.routers.mailcow-autoconfig.tls=true"
         - "traefik.http.routers.mailcow-autoconfig.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autoconfig.service=mailcow-svc"
-        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8082"
-        - "traefik.http.services.mailcow-svc.loadbalancer.server.scheme=http"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8444"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.scheme=https"
+        - "traefik.http.services.mailcow-svc.loadbalancer.server.transport.insecureSkipVerify=true"
       networks:
         mailcow-network:
           aliases:
