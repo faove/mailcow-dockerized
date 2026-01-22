@@ -461,7 +461,7 @@ services:
         - "traefik.http.routers.mailcow.service=mailcow-svc"
         - "traefik.http.routers.mailcow-http.entrypoints=web"
         - "traefik.http.routers.mailcow-http.rule=Host(`mail.elantarone.com`)"
-        - "traefik.http.routers.mailcow-http.service=mailcow-svc-http"
+        - "traefik.http.routers.mailcow-http.service=mailcow-svc"
         - "traefik.http.services.mailcow-svc-http.loadbalancer.server.port=8090"
         - "traefik.http.routers.mailcow-autodiscover.entrypoints=websecure"
         - "traefik.http.routers.mailcow-autodiscover.rule=Host(`autodiscover.elantarone.com`)"
