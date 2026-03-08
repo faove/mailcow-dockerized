@@ -455,21 +455,21 @@ services:
         - "traefik.enable=true"
         - "traefik.docker.network=elantar_proxy"
         - "traefik.http.routers.mailcow.entrypoints=websecure"
-        - "traefik.http.routers.mailcow.rule=Host(`mail.erpelantar.com`)"
+        - "traefik.http.routers.mailcow.rule=Host(`mail.aquafeelglobal.net`)"
         - "traefik.http.routers.mailcow.tls=true"
         - "traefik.http.routers.mailcow.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow.service=mailcow-svc"
         - "traefik.http.routers.mailcow-http.entrypoints=web"
-        - "traefik.http.routers.mailcow-http.rule=Host(`mail.erpelantar.com`)"
+        - "traefik.http.routers.mailcow-http.rule=Host(`mail.aquafeelglobal.net`)"
         - "traefik.http.routers.mailcow-http.service=mailcow-svc"
         - "traefik.http.services.mailcow-svc-http.loadbalancer.server.port=8090"
         - "traefik.http.routers.mailcow-autodiscover.entrypoints=websecure"
-        - "traefik.http.routers.mailcow-autodiscover.rule=Host(`autodiscover.erpelantar.com`)"
+        - "traefik.http.routers.mailcow-autodiscover.rule=Host(`autodiscover.aquafeelglobal.net`)"
         - "traefik.http.routers.mailcow-autodiscover.tls=true"
         - "traefik.http.routers.mailcow-autodiscover.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autodiscover.service=mailcow-svc"
         - "traefik.http.routers.mailcow-autoconfig.entrypoints=websecure"
-        - "traefik.http.routers.mailcow-autoconfig.rule=Host(`autoconfig.erpelantar.com`)"
+        - "traefik.http.routers.mailcow-autoconfig.rule=Host(`autoconfig.aquafeelglobal.net`)"
         - "traefik.http.routers.mailcow-autoconfig.tls=true"
         - "traefik.http.routers.mailcow-autoconfig.tls.certresolver=letsencrypt"
         - "traefik.http.routers.mailcow-autoconfig.service=mailcow-svc"
@@ -491,7 +491,7 @@ services:
         - ./data/assets/ssl:/output:rw
         - /var/run/docker.sock:/var/run/docker.sock:ro
       environment:
-        - DOMAIN=mail.erpelantar.com
+        - DOMAIN=mail.aquafeelglobal.net
 
     acme-mailcow:
       depends_on:
