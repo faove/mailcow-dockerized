@@ -451,47 +451,13 @@ services:
         - ./data/web/inc/sessions.inc.php:/mailcowauth/sessions.inc.php:z
         - sogo-web-vol-1:/usr/lib/GNUstep/SOGo/
       restart: always
-      labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=elantar_proxy"
-        - "traefik.http.routers.mailcow.entrypoints=websecure"
-        - "traefik.http.routers.mailcow.rule=Host(`mail.aquafeelglobal.net`)"
-        - "traefik.http.routers.mailcow.tls=true"
-        - "traefik.http.routers.mailcow.tls.certresolver=letsencrypt"
-        - "traefik.http.routers.mailcow.service=mailcow-svc"
-        - "traefik.http.routers.mailcow-http.entrypoints=web"
-        - "traefik.http.routers.mailcow-http.rule=Host(`mail.aquafeelglobal.net`)"
-        - "traefik.http.routers.mailcow-http.service=mailcow-svc"
-        - "traefik.http.services.mailcow-svc-http.loadbalancer.server.port=8090"
-        - "traefik.http.routers.mailcow-autodiscover.entrypoints=websecure"
-        - "traefik.http.routers.mailcow-autodiscover.rule=Host(`autodiscover.aquafeelglobal.net`)"
-        - "traefik.http.routers.mailcow-autodiscover.tls=true"
-        - "traefik.http.routers.mailcow-autodiscover.tls.certresolver=letsencrypt"
-        - "traefik.http.routers.mailcow-autodiscover.service=mailcow-svc"
-        - "traefik.http.routers.mailcow-autoconfig.entrypoints=websecure"
-        - "traefik.http.routers.mailcow-autoconfig.rule=Host(`autoconfig.aquafeelglobal.net`)"
-        - "traefik.http.routers.mailcow-autoconfig.tls=true"
-        - "traefik.http.routers.mailcow-autoconfig.tls.certresolver=letsencrypt"
-        - "traefik.http.routers.mailcow-autoconfig.service=mailcow-svc"
-        - "traefik.http.services.mailcow-svc.loadbalancer.server.port=8090"
+      ports:
+        - "127.0.0.1:8090:${HTTP_PORT:-8090}"
+        - "127.0.0.1:8444:${HTTPS_PORT:-8444}"
       networks:
         mailcow-network:
           aliases:
             - nginx
-        elantar_proxy: {}
-
-    certdumper:
-      image: ghcr.io/kereis/traefik-certs-dumper:latest
-      container_name: traefik_certdumper
-      restart: unless-stopped
-      network_mode: none
-      command: --restart-containers ${COMPOSE_PROJECT_NAME:-mailcow-dockerized}-postfix-mailcow-1,${COMPOSE_PROJECT_NAME:-mailcow-dockerized}-dovecot-mailcow-1
-      volumes:
-        - /var/www/html/traefik-akp/letsencrypt/acme.json:/traefik/acme.json:ro
-        - ./data/assets/ssl:/output:rw
-        - /var/run/docker.sock:/var/run/docker.sock:ro
-      environment:
-        - DOMAIN=mail.aquafeelglobal.net
 
     acme-mailcow:
       depends_on:
@@ -701,8 +667,6 @@ networks:
       config:
         - subnet: ${IPV4_NETWORK:-172.22.1}.0/24
         - subnet: ${IPV6_NETWORK:-fd4d:6169:6c63:6f77::/64}
-  elantar_proxy:
-    external: true
 
 volumes:
   vmail-vol-1:
