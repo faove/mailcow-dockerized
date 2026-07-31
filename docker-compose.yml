@@ -457,11 +457,11 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=devnodo_net"
-        - "traefik.http.routers.mailcow-http.rule=Host(`mailcow.devnodo.com`)"
+        - "traefik.http.routers.mailcow-http.rule=Host(`mail.devnodo.com`)"
         - "traefik.http.routers.mailcow-http.entrypoints=web"
         - "traefik.http.routers.mailcow-http.middlewares=mailcow-https-redirect"
         - "traefik.http.middlewares.mailcow-https-redirect.redirectscheme.scheme=https"
-        - "traefik.http.routers.mailcow.rule=Host(`mailcow.devnodo.com`)"
+        - "traefik.http.routers.mailcow.rule=Host(`mail.devnodo.com`)"
         - "traefik.http.routers.mailcow.entrypoints=websecure"
         - "traefik.http.routers.mailcow.tls=true"
         - "traefik.http.routers.mailcow.tls.certresolver=letsencrypt"
