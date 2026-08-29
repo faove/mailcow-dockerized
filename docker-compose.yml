@@ -1,6 +1,13 @@
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 services:
 
     unbound-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/unbound:1.24
       environment:
         - TZ=${TZ}
@@ -17,6 +24,7 @@ services:
             - unbound
 
     mysql-mailcow:
+      logging: *default-logging
       image: mariadb:10.11
       depends_on:
         - unbound-mailcow
@@ -42,6 +50,7 @@ services:
             - mysql
 
     redis-mailcow:
+      logging: *default-logging
       image: redis:7.4.6-alpine
       entrypoint: ["/bin/sh","/redis-conf.sh"]
       volumes:
@@ -65,6 +74,7 @@ services:
             - redis
 
     clamd-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/clamd:1.71
       restart: always
       depends_on:
@@ -84,6 +94,7 @@ services:
             - clamd
 
     rspamd-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/rspamd:2.4
       stop_grace_period: 30s
       depends_on:
@@ -117,6 +128,7 @@ services:
             - rspamd
 
     php-fpm-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/phpfpm:8.2.29
       command: "php-fpm -d date.timezone=${TZ} -d expose_php=0"
       depends_on:
@@ -200,6 +212,7 @@ services:
             - phpfpm
 
     sogo-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/sogo:5.12.4
       environment:
         - DBNAME=${DBNAME}
@@ -252,6 +265,7 @@ services:
             - sogo
 
     dovecot-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/dovecot:2.3.21.1
       depends_on:
         - mysql-mailcow
@@ -339,6 +353,7 @@ services:
             - dovecot
 
     postfix-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/postfix:3.7.11
       depends_on:
         mysql-mailcow:
@@ -382,6 +397,7 @@ services:
             - postfix
 
     postfix-tlspol-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/postfix-tlspol:1.8.22
       depends_on:
         unbound-mailcow:
@@ -404,6 +420,7 @@ services:
             - postfix-tlspol
 
     memcached-mailcow:
+      logging: *default-logging
       image: memcached:alpine
       restart: always
       environment:
@@ -414,6 +431,7 @@ services:
             - memcached
 
     nginx-mailcow:
+      logging: *default-logging
       depends_on:
         - redis-mailcow
         - php-fpm-mailcow
@@ -460,6 +478,7 @@ services:
             - nginx
 
     acme-mailcow:
+      logging: *default-logging
       depends_on:
         nginx-mailcow:
           condition: service_started
@@ -502,6 +521,7 @@ services:
             - acme
 
     netfilter-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/netfilter:1.63
       stop_grace_period: 30s
       restart: always
@@ -522,6 +542,7 @@ services:
         - /lib/modules:/lib/modules:ro
 
     watchdog-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/watchdog:2.09
       dns:
         - ${IPV4_NETWORK:-172.22.1}.254
@@ -597,6 +618,7 @@ services:
             - watchdog
 
     dockerapi-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/dockerapi:2.11
       security_opt:
         - label=disable
@@ -617,6 +639,7 @@ services:
             - dockerapi
 
     olefy-mailcow:
+      logging: *default-logging
       image: ghcr.io/mailcow/olefy:1.15
       restart: always
       environment:
@@ -636,6 +659,7 @@ services:
             - olefy
 
     ofelia-mailcow:
+      logging: *default-logging
       image: mcuadros/ofelia:latest
       restart: always
       command: daemon --docker -f label=com.docker.compose.project=${COMPOSE_PROJECT_NAME}
